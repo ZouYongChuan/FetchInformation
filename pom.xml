@@ -15,11 +15,11 @@
     </parent>
     <build>
         <filters>
-            <filter>${project.basedir}/config/${profiles.active}.cfg</filter>
+            <filter>src/../config/${profiles.active}.cfg</filter>
         </filters>
         <resources>
         <resource>
-            <directory>src/main/java</directory>
+            <directory>src/main/resources</directory>
             <filtering>true</filtering>
         </resource>
         </resources>
