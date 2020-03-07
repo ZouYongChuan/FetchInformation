@@ -18,7 +18,7 @@
     </properties>
     <build>
         <filters>
-            <filter>/Users/zouyongchuan/Documents/Projects/FetchInformation/config/dev.cfg</filter>
+            <filter>${project.basedir}/config/${profiles.active}.cfg</filter>
         </filters>
         <resources>
             <resource>
