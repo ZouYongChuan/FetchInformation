@@ -4,6 +4,8 @@ import data.ConvertDebt;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,20 +19,21 @@ import java.util.Optional;
  * @author zouyongchuan
  */
 @Service
+@PropertySource("classpath:application.properties")
 public class Request {
     private static Logger LOGGER = LoggerFactory.getLogger(Request.class);
 
-    @Autowired
+    @Value("${url}")
     private String url;
-    @Autowired
+    @Value("${defaultUrl}")
     private String defaultUrl;
-    @Autowired
+    @Value("${tdHrefPosition}")
     private Integer tdHrefPosition;
-    @Autowired
+    @Value("${skipNumber}")
     private Integer skipNumber;
-    @Autowired
+    @Value("${timeOut}")
     private Integer timeOut;
-    @Autowired
+    @Value("${backGroudWaitTime}")
     private Integer backGroudWaitTime;
 
     @RequestMapping(value = "/data",method = RequestMethod.GET)
