@@ -14,14 +14,35 @@
         <relativePath/>
     </parent>
     <build>
+        <resources>
+        <resource>
+            <directory>classpath:config</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>${profiles.active}.cfg</include>
+            </includes>
+        </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+<!--                <configuration>-->
+<!--                    &lt;!&ndash; 指定assembly插件的配置文件所在位置 &ndash;&gt;-->
+<!--                    <descriptors>-->
+<!--                        <descriptor>src/Main/resources/assembly/package.xml</descriptor>-->
+<!--                    </descriptors>-->
+<!--                </configuration>-->
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -45,5 +66,21 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 </project>
