@@ -17,10 +17,10 @@ public class GetElementsFromHtml {
 
     private final static String VERTICAL = "|";
     private final static String ELEMEMT_TABLE = "flex_cb";
-    private final static String TR="tr";
-    private final static String TD="td";
-    private final static String CSS_A="a";
-    private final static String KEY_HREF="href";
+    private final static String TR = "tr";
+    private final static String TD = "td";
+    private final static String CSS_A = "a";
+    private final static String KEY_HREF = "href";
 
     private final int skipNumber;
     private final Integer tdHrefPosition;
@@ -37,7 +37,7 @@ public class GetElementsFromHtml {
     public Optional<Map<Integer, List<String>>> process() {
         try {
             final Optional<Document> doc = getHtmlPage.process();
-            if(doc.isPresent()) {
+            if (doc.isPresent()) {
                 final Element elementTable = doc.get().getElementById(ELEMEMT_TABLE);
                 final Elements elemenTrs = elementTable.select(TR);
                 return Optional.of(elemenTrs.stream().skip(skipNumber)
@@ -49,7 +49,7 @@ public class GetElementsFromHtml {
                                         return td.text();
                                     }
                                 }).collect(Collectors.toList()))));
-            }else{
+            } else {
                 LOGGER.error("Got empty document from html.");
                 return Optional.empty();
             }
