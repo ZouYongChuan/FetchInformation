@@ -20,9 +20,9 @@ import java.util.Optional;
 @RestController
 @PropertySource("classpath:data.properties")
 public class RequestController {
-    @Value("${url}")
+    @Value("${jisilu.url}")
     private String url;
-    @Value("${defaultUrl}")
+    @Value("${jisilu.defaultUrl}")
     private String defaultUrl;
     @Value("${tdHrefPosition}")
     private Integer tdHrefPosition;
@@ -33,7 +33,7 @@ public class RequestController {
     @Value("${backGroudWaitTime}")
     private Integer backGroudWaitTime;
 
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    @RequestMapping(value = "/jisilu", method = RequestMethod.GET)
     @ResponseBody
     public Optional<Map<Integer, List<String>>> data() {
         final GetHtmlPage getHtmlPage = new GetHtmlPage(timeOut, url, backGroudWaitTime);
