@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 @RestController
 @PropertySource("classpath:data.properties")
-public class RequestController {
+public class JisiluController {
     @Value("${jisilu.url}")
     private String url;
     @Value("${jisilu.defaultUrl}")
