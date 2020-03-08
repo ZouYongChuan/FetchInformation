@@ -1,8 +1,7 @@
 package com.controller;
 
-import com.data.ConvertDebt;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import com.data.GetElementsFromHtml;
+import com.data.GetHtmlPage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
@@ -22,8 +21,6 @@ import java.util.Optional;
 @PropertySource("classpath:data.properties")
 @EnableAutoConfiguration
 public class RequestController {
-    private static Logger LOGGER = LoggerFactory.getLogger(RequestController.class);
-
     @Value("${url}")
     private String url;
     @Value("${defaultUrl}")
@@ -37,15 +34,11 @@ public class RequestController {
     @Value("${backGroudWaitTime}")
     private Integer backGroudWaitTime;
 
-    @RequestMapping(value = "/data",method = RequestMethod.GET)
+    @RequestMapping(value = "/data", method = RequestMethod.GET)
     @ResponseBody
-    public Optional<Map<Integer, List<String>>> data(){
-        try {
-            final ConvertDebt convertDebt = new ConvertDebt(timeOut, url, backGroudWaitTime, skipNumber, tdHrefPosition, defaultUrl);
-            return convertDebt.get();
-        }catch (Exception e){
-            LOGGER.error(String.valueOf(e));
-            return Optional.empty();
-        }
+    public Optional<Map<Integer, List<String>>> data() {
+        final GetHtmlPage getHtmlPage = new GetHtmlPage(timeOut, url, backGroudWaitTime);
+        final GetElementsFromHtml getElementsFromHtml = new GetElementsFromHtml(getHtmlPage, skipNumber, tdHrefPosition, defaultUrl);
+        return getElementsFromHtml.process();
     }
 }
