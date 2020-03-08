@@ -19,7 +19,6 @@ import java.util.Optional;
  */
 @RestController
 @PropertySource("classpath:data.properties")
-@EnableAutoConfiguration
 public class RequestController {
     @Value("${url}")
     private String url;
