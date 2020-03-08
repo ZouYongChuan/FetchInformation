@@ -3,8 +3,12 @@ package com.data;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class GetHtmlPage {
     private static Logger LOGGER= LoggerFactory.getLogger(GetHtmlPage.class);
@@ -18,11 +22,7 @@ public class GetHtmlPage {
         this.backGroudWaitTime = backGroudWaitTime;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public String process(){
+    public Optional<Document> process(){
         try {
             final WebClient webClient = new WebClient(BrowserVersion.CHROME);
             webClient.getOptions().setJavaScriptEnabled(true);
@@ -31,10 +31,11 @@ public class GetHtmlPage {
             webClient.getOptions().setTimeout(timeOut);
             final HtmlPage htmlPage = webClient.getPage(url);
             webClient.waitForBackgroundJavaScript(backGroudWaitTime);
-            return htmlPage.asXml();
+            final String pageAsXml =  htmlPage.asXml();
+            return Optional.of(Jsoup.parse(pageAsXml, url));
         }catch (Exception e){
             LOGGER.error(e.getMessage());
-            return "";
+            return Optional.empty();
         }
     }
 }

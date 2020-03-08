@@ -30,19 +30,23 @@ public class GetElementsFromHtml {
 
     public Optional<Map<Integer, List<String>>> process() {
         try {
-            final String pageAsXml=getHtmlPage.process();
-            final Document doc = Jsoup.parse(pageAsXml, getHtmlPage.getUrl());
-            final Element elementTable = doc.getElementById("flex_cb");
-            final Elements elemenTrs = elementTable.select("tr");
-            return Optional.of(elemenTrs.stream().skip(skipNumber)
-                    .collect(Collectors.toMap(elemenTrs::indexOf, tr -> tr.select("td")
-                            .stream().map(td -> {
-                                if (tdHrefPosition.equals(tr.select("td").indexOf(td))) {
-                                    return defaultUrl + td.select("a").attr("href") + VERTICAL + td.text();
-                                } else {
-                                    return td.text();
-                                }
-                            }).collect(Collectors.toList()))));
+            final Optional<Document> doc = getHtmlPage.process();
+            if(doc.isPresent()) {
+                final Element elementTable = doc.get().getElementById("flex_cb");
+                final Elements elemenTrs = elementTable.select("tr");
+                return Optional.of(elemenTrs.stream().skip(skipNumber)
+                        .collect(Collectors.toMap(elemenTrs::indexOf, tr -> tr.select("td")
+                                .stream().map(td -> {
+                                    if (tdHrefPosition.equals(tr.select("td").indexOf(td))) {
+                                        return defaultUrl + td.select("a").attr("href") + VERTICAL + td.text();
+                                    } else {
+                                        return td.text();
+                                    }
+                                }).collect(Collectors.toList()))));
+            }else{
+                LOGGER.error("Got empty document from html.");
+                return Optional.empty();
+            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return Optional.empty();
