@@ -34,7 +34,6 @@ public class JisiluController {
     private Integer backGroudWaitTime;
 
     @RequestMapping(value = "/jisilu", method = RequestMethod.GET)
-    @ResponseBody
     public Optional<Map<Integer, List<String>>> data() {
         final GetHtmlPage getHtmlPage = new GetHtmlPage(timeOut, url, backGroudWaitTime);
         final GetElementsFromHtml getElementsFromHtml = new GetElementsFromHtml(getHtmlPage, skipNumber, tdHrefPosition, defaultUrl);
